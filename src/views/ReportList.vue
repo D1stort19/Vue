@@ -1,13 +1,10 @@
 ﻿<script setup>
-import { ref, reactive } from "vue";
-import moment from "moment";
-import { Menu as IconMenu, Message, Setting } from "@element-plus/icons-vue";
+import { reactive } from "vue";
 import { useFetch } from "@vueuse/core";
 import qs from "qs";
 import { useUser } from "@/store/user.js";
 
 const store = useUser();
-let len = 0;
 
 const tableData = reactive([]);
 const { onFetchResponse, data, execute } = useFetch(
@@ -20,7 +17,6 @@ const { onFetchResponse, data, execute } = useFetch(
   .json();
 onFetchResponse((response) => {
   console.log(data);
-  len = data._value.data.report_list.length;
   for (var i = 0; i < data._value.data.report_list.length; i++) {
     tableData.unshift({
       post_id: data._value.data.report_list[i].post_id,

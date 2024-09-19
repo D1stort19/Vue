@@ -1,11 +1,11 @@
 ﻿<script setup>
 import { useFetch } from "@vueuse/core";
 import { ElMessage } from "element-plus";
-import { computed, reactive, ref } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
-const router = useRouter();
 import { useUser } from "@/store/user.js";
 
+const router = useRouter();
 const store = useUser();
 const inputUserName = ref("");
 const inputPassword = ref("");

@@ -1,10 +1,8 @@
 ﻿<script setup>
-import { ref } from "vue";
 import { useRouter } from "vue-router";
-const router = useRouter();
 import { useUser } from "@/store/user.js";
 const store = useUser();
-console.log(store);
+const router = useRouter();
 
 const login = () => {
   router.push("/login");

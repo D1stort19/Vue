@@ -1,13 +1,10 @@
 ﻿<script setup>
-import { Edit } from "@element-plus/icons-vue";
-import { ref, reactive } from "vue";
-import { Menu as IconMenu, Message, Setting } from "@element-plus/icons-vue";
+import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useFetch } from "@vueuse/core";
 import qs from "qs";
 
 const router = useRouter();
-let len = 0;
 
 const tableData = reactive([]);
 const { onFetchResponse, data, execute } = useFetch(
@@ -18,8 +15,8 @@ const { onFetchResponse, data, execute } = useFetch(
 )
   .get()
   .json();
+
 onFetchResponse((response) => {
-  len = data._value.data.report_list.length;
   for (var i = 0; i < data._value.data.report_list.length; i++) {
     tableData.unshift({
       username: data._value.data.report_list[i].username,
@@ -53,7 +50,6 @@ const goToPage = (record) => {
       >
         <el-container>
           <el-header style="text-align: right; font-size: 12px"> </el-header>
-
           <el-main>
             <el-scrollbar>
               <el-table
