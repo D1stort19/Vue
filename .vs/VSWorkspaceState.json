@@ -2,12 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\api",
     "\\src\\assets",
     "\\src\\components",
     "\\src\\router",
+    "\\src\\store",
     "\\src\\views"
   ],
-  "SelectedNode": "\\src\\views\\AdminList.vue",
+  "SelectedNode": "\\src\\views\\Content.vue",
   "PreviewInSolutionExplorer": false
 }

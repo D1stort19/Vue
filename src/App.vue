@@ -1,13 +1,14 @@
-﻿<script>
-</script>
+﻿<script></script>
 
 <template>
-    <router-view />
+  <router-view />
 </template>
 
 <style>
-    html, body, #app {
-        height: 100%;
-        background: #F0F2F5;
-    }
+html,
+body,
+#app {
+  height: 100%;
+  background: #f0f2f5;
+}
 </style>

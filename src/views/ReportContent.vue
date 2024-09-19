@@ -10,7 +10,6 @@ const store = useUser();
 const router = useRouter();
 const route = useRoute();
 
-const init = ref("");
 let height = ref("");
 let bodyHeight = reactive({
   height: "0px",
@@ -18,6 +17,12 @@ let bodyHeight = reactive({
 let contentBodyHeight = reactive({
   height: "0px",
 });
+const adminData = reactive({
+  user_id: store.user_id,
+  post_id: Number(route.query.post_id),
+  approval: 0,
+});
+
 onMounted(() => {
   height = document.getElementById("myDIV").clientHeight + 250;
   bodyHeight.height = height + "px";
@@ -25,41 +30,30 @@ onMounted(() => {
   console.log(bodyHeight);
 });
 
-const Edit = () => {
-  router.push({
-    path: "/edit",
-    query: {
-      userID: route.query.userID,
-      content: route.query.content,
-      postID: route.query.postID,
-    },
-  });
+const Enter = () => {
+  adminData.approval = 1;
+  execute();
+  //router.push("/adminlist")
 };
 
-const Report = () => {
-  router.push({
-    path: "/report",
-    query: { userID: route.query.userID, postID: route.query.postID },
-  });
+const Delete = () => {
+  adminData.approval = 2;
+  execute();
+  //router.push("/adminlist")
 };
 
-const delData = {
-  user_id: Number(route.query.userID),
-  post_id: Number(route.query.postID),
-};
-const { onFetchResponse, data, execute } = useFetch(
-  "/api/student/post?" + qs.stringify(delData),
-  {
-    immediate: false,
-  },
-)
-  .delete()
+const { onFetchResponse, data, execute } = useFetch("/api/admin/report", {
+  immediate: false,
+})
+  .post(adminData)
   .json();
 
 onFetchResponse((response) => {
+  console.log(adminData);
+
   if (data._value.code === 200) {
     ElMessage({
-      message: "已删除.",
+      message: "已提交.",
       type: "success",
     });
     router.push("/list");
@@ -67,37 +61,26 @@ onFetchResponse((response) => {
     ElMessage.error(data._value.msg + ".");
   }
 });
-const Delete = () => {
-  if (store.user_id == delData.user_id) execute();
-};
 </script>
 
 <template>
   <div style="margin: 0 auto; width: 100%">
     <div class="content" :style="bodyHeight">
       <div class="content-body" :style="contentBodyHeight">
-        {{ $route.query.time }}
+        PostID：{{ $route.query.post_id }}
         <el-divider />
-        <div style="height: auto" ref="init" id="myDIV">
-          {{ $route.query.content }}
+        <div style="height: auto" id="myDIV">
+          内容：{{ $route.query.content }}
+          <el-divider />
+          原因：{{ $route.query.reason }}
         </div>
         <el-divider />
+
         <div style="display: flex; justify-content: flex-end">
-          <el-button
-            v-if="store.user_id == delData.user_id"
-            @click="Edit"
-            style="background: #39c5bb; color: white"
-            >修改</el-button
+          <el-button @click="Enter" style="background: #39c5bb; color: white"
+            >通过</el-button
           >
-          <el-button
-            v-if="store.user_id == delData.user_id"
-            @click="Delete"
-            type="danger"
-            >删除</el-button
-          >
-          <el-button v-if="store.user_id != null" @click="Report" type="warning"
-            >举报</el-button
-          >
+          <el-button @click="Delete" type="danger">拒绝</el-button>
         </div>
       </div>
     </div>
